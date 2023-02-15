@@ -1,36 +1,47 @@
 <template>
-     <IxInput  v-model:value="username" prefix="user"></IxInput>
-    <!-- <IxForm class="demo-form" >
-        <IxFormItem message="Please input your username!">
-            <IxInput   v-model:value="formValue.valid" prefix="user"></IxInput>
+    <IxForm class="demo-form" :control="formGroup">
+        <IxFormItem labelFor="username" controlCol="16" label="用户" message="请输入用户名">
+            <IxInput control="username" v-model:value="formValue.username" ></IxInput>
         </IxFormItem>
-        <IxFormItem message="Please input your password, its length is 6-18!">
-            <IxInput  v-model:value="formValue.validating" prefix="lock">
+        <IxFormItem labelFor="password" controlCol="16" label="密码" message="请输入密码">
+            <IxInput control="password" v-model:value="formValue.password" >
             </IxInput>
         </IxFormItem>
         <IxFormItem>
-            <IxButton mode="primary" block type="submit" @click="login">登录</IxButton>
+            <IxButton mode="primary" block type="submit" @click="login()">登录</IxButton>
         </IxFormItem>
-    </IxForm> -->
-    <IxButton mode="primary" block type="submit" @click="login">登录</IxButton>
+    </IxForm>
+
 </template>
 
 <script lang='ts' setup>
 import { AbstractControl, Validators, useFormGroup } from '@idux/cdk/forms'
 
-import { reactive, ref, toRefs,watch } from 'vue'
+import { reactive, ref, toRefs, watch } from 'vue'
 interface FormValue {
-  valid?: string
-  validating?: string
-  invalid?: string
-  dynamic?: string
+    username?: string
+    password?: string
 }
-let username = ref('')
 const formValue = reactive<FormValue>({})
-watch(formValue, value => console.log('formValue', value), { deep: true })
-
+//表单校验
+const { required } = Validators
+const formGroup = useFormGroup({
+    username: ['', required],
+    password: ['', required]
+})
 const login = () => {
-    console.log(username.value);
+   
+    
+    if (formGroup.valid.value) {
+        console.log(123);
+        
+        console.log('register', formGroup.getValue())
+    } else {
+        console.log(456);
+        
+        formGroup.markAsDirty()
+    }
+
 
 }
 
