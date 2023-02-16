@@ -1,46 +1,45 @@
 <template>
-    <IxForm class="demo-form" :control="formGroup">
-        <IxFormItem labelFor="username" controlCol="16" label="用户" message="请输入用户名">
-            <IxInput control="username" v-model:value="formValue.username" ></IxInput>
-        </IxFormItem>
-        <IxFormItem labelFor="password" controlCol="16" label="密码" message="请输入密码">
-            <IxInput control="password" v-model:value="formValue.password" >
-            </IxInput>
-        </IxFormItem>
-        <IxFormItem>
-            <IxButton mode="primary" block type="submit" @click="login()">登录</IxButton>
-        </IxFormItem>
-    </IxForm>
+    <form>
+        <v-text-field v-model="state.username" :error-messages="v$.username.$errors.map(e => e.$message)" :counter="10" label="姓名"
+            required @input="v$.username.$touch" @blur="v$.username.$touch"></v-text-field>
 
+        <v-text-field v-model="state.password" :error-messages="v$.password.$errors.map(e => e.$message)" label="密码" required
+            ></v-text-field>
+
+
+        <v-btn class="me-4" @click="v$.$validate">
+            123
+        </v-btn>
+        <v-btn @click="login()">
+            clear
+        </v-btn>
+</form>
 </template>
 
 <script lang='ts' setup>
-import { AbstractControl, Validators, useFormGroup } from '@idux/cdk/forms'
-
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 import { reactive, ref, toRefs, watch } from 'vue'
 interface FormValue {
-    username?: string
-    password?: string
+    username?: string;
+    password?: string;
 }
-const formValue = reactive<FormValue>({})
+const initialState: FormValue = {};
+
+const state = reactive<FormValue>({
+    ...initialState,
+});
+
+const rules = {
+    username: { required, },
+    password: { required },
+};
+const v$ = useVuelidate<FormValue>(rules, state);
+// const v$ = useVuelidate(rules, state)
 //表单校验
-const { required } = Validators
-const formGroup = useFormGroup({
-    username: ['', required],
-    password: ['', required]
-})
+
+
 const login = () => {
-   
-    
-    if (formGroup.valid.value) {
-        console.log(123);
-        
-        console.log('register', formGroup.getValue())
-    } else {
-        console.log(456);
-        
-        formGroup.markAsDirty()
-    }
 
 
 }
@@ -49,6 +48,4 @@ const login = () => {
 
 </script>
  
-<style lang = "less" scoped>
-
-</style>
+<style lang = "less" scoped></style>

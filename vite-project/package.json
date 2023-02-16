@@ -11,11 +11,14 @@
   "dependencies": {
     "@idux/components": "^1.4.1",
     "@idux/pro": "^1.4.1",
+    "@vuelidate/core": "^2.0.0",
+    "@vuelidate/validators": "^2.0.0",
     "axios": "^1.3.2",
     "element-plus": "^2.2.30",
     "vue": "^3.2.45",
     "vue-router": "^4.0.13",
     "vuesax": "^4.0.1-alpha.25",
+    "vuetify": "^3.1.5",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
