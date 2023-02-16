@@ -1,51 +1,82 @@
 <template>
-    <form>
-        <v-text-field v-model="state.username" :error-messages="v$.username.$errors.map(e => e.$message)" :counter="10" label="姓名"
-            required @input="v$.username.$touch" @blur="v$.username.$touch"></v-text-field>
+  <div>
+    <v-sheet width="490" class="mx-auto">
+      <v-form ref="form">
+        <v-row>
+          <v-col cols="2">
+            <v-list-subheader>用户名:</v-list-subheader>
+          </v-col>
 
-        <v-text-field v-model="state.password" :error-messages="v$.password.$errors.map(e => e.$message)" label="密码" required
+          <v-col cols="10">
+            <v-text-field
+              variant="outlined"
+              v-model="state.username"
+              :counter="10"
+              :rules="rules.nameRules"
+              label="用户名"
             ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="2">
+            <v-list-subheader>密码:</v-list-subheader>
+          </v-col>
 
+          <v-col cols="10">
+            <v-text-field
+              type="password"
+              variant="outlined"
+              v-model="state.password"
+              :rules="rules.passwordRules"
+              label="密码"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-sheet>
 
-        <v-btn class="me-4" @click="v$.$validate">
-            123
-        </v-btn>
-        <v-btn @click="login()">
-            clear
-        </v-btn>
-</form>
+    <div class="d-flex flex-column y-button">
+      <v-btn type="submit" rounded="lg" block color="info" @click="validate()"
+        >登录</v-btn
+      >
+    </div>
+  </div>
 </template>
 
-<script lang='ts' setup>
-import { useVuelidate } from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
-import { reactive, ref, toRefs, watch } from 'vue'
+<script lang="ts" setup>
+import { reactive, ref, toRefs } from "vue";
+const form = ref(null);
+const refForm = ref(form);
 interface FormValue {
-    username?: string;
-    password?: string;
+  username?: string;
+  password?: string;
 }
-const initialState: FormValue = {};
 
-const state = reactive<FormValue>({
-    ...initialState,
-});
-
+//账号数据
+const state = reactive<FormValue>({});
+//校验规则
 const rules = {
-    username: { required, },
-    password: { required },
+  nameRules: [
+    (v) => !!v || "姓名是必填项",
+    (v) => (v && v.length <= 10) || "请您输入十个字符内",
+  ],
+  passwordRules: [(v) => !!v || "密码是必填项"],
 };
-const v$ = useVuelidate<FormValue>(rules, state);
-// const v$ = useVuelidate(rules, state)
 //表单校验
-
-
-const login = () => {
-
-
-}
-
-
-
+const validate = () => {
+  refForm.value.validate().then((res) => {
+    if (res.valid) {
+      console.log(state.username);
+    }
+  });
+};
 </script>
- 
-<style lang = "less" scoped></style>
+
+<style lang="css" scoped>
+.y-button {
+  width: 270px;
+  height: 46px;
+  margin: 0 auto;
+}
+</style>
