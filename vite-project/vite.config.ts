@@ -7,6 +7,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  
   plugins: [
   vue(),
   AutoImport({
@@ -15,14 +16,7 @@ export default defineConfig({
   Components({
     resolvers: [ElementPlusResolver()],
   }),
-  // viteStaticCopy({
-  //   targets: [
-  //     {
-  //       src: "./node_modules/@idux/components/icon/assets/*.svg",
-  //       dest: "idux-icons",
-  //     },
-  //   ],
-  // }),
+  
 
 ],
 })

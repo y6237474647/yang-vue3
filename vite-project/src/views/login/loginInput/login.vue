@@ -1,5 +1,5 @@
 <template>
-  <div>
+<div>
     <v-sheet width="490" class="mx-auto">
       <v-form ref="form">
         <v-row>
@@ -41,12 +41,16 @@
         >登录</v-btn
       >
     </div>
-  </div>
+  </div> 
+  
+
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref, toRefs } from "vue";
 const form = ref(null);
+const expand = ref(false)
+const expand2 = ref(false)
 const refForm = ref(form);
 interface FormValue {
   username?: string;
