@@ -7,11 +7,23 @@ const routes: RouteRecordRaw[] = [
         name: 'index',
         component:Layout,
         redirect: '/table',
-        children: [{
+        children: [
+            {
             path: 'table',
             name: 'table',
             component: () => import('../components/lable/index.vue')
-        }]
+        },
+        {
+            path: 'card',
+            name: 'card',
+            component: () => import('../components/card/index.vue')
+        },
+        {
+            path: 'form',
+            name: 'form',
+            component: () => import('../components/form/index.vue')
+        }
+    ]
     },
     {
         path: "/login",
